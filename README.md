@@ -4,7 +4,7 @@ If you want to send data packages to a web service in a reliable way, with guara
 
 ## Installation
 
-LAPReliableSessionManager is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+LAPReliableSessionManager is available through [CocoaPods](https://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
 pod "LAPReliableSessionManager"
