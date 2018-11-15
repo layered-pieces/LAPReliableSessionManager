@@ -13,6 +13,7 @@
 @property (nonatomic, readonly) NSArray<NSURL *> *sortedPackageURLs;
 
 @property (nonatomic, readonly) id<LAPWebServiceReachabilityManagerToken> token;
+@property (nonatomic, readonly) dispatch_source_t timer;
 
 @property (nonatomic, nullable) NSURLRequest *transmittingRequest;
 @property (nonatomic, readonly) NSMutableDictionary<NSURLRequest *, void(^)(NSURLRequest *request, NSURLResponse *response, NSError *error)> *completionLookup;
@@ -69,12 +70,20 @@
         _token = [_reachabilityManager addStatusObserver:^(LAPWebServiceReachabilityManager * _Nonnull manager, LAPWebServiceReachabilityStatus status) {
             [welf _tryToSendNextDataPackage];
         }];
+
+        _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+        dispatch_source_set_timer(_timer, dispatch_time(DISPATCH_TIME_NOW, 60.0 * NSEC_PER_SEC), 60.0 * NSEC_PER_SEC, (1ull * NSEC_PER_SEC) / 10);
+        dispatch_source_set_event_handler(_timer, ^{
+            [welf _tryToSendNextDataPackage];
+        });
+        dispatch_resume(_timer);
     }
     return self;
 }
 
 - (void)dealloc
 {
+    dispatch_source_cancel(self.timer);
     [self.reachabilityManager removeStatusObserver:self.token];
 }
 
