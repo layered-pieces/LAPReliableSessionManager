@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name               = "LAPReliableSessionManager"
-  s.version            = "0.1.0"
+  s.version            = "0.1.1"
   s.summary            = "Send data packages in a reliable way, with guaranteed delivery"
   s.description        = "If you want to send data packages to a web service in a reliable way, with guaranteed delivery."
   s.homepage           = "https://github.com/layered-pieces/LAPReliableSessionManager"
